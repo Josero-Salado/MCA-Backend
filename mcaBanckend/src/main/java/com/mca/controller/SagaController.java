@@ -53,14 +53,7 @@ public class SagaController {
 	  }
 	  
 	  
-	  public ResultSet mySqlCall(String id) throws SQLException {
-		  ResultSet result = null;
-		  Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost:3306/system","sys", "system");
-		  Statement s = conexion.createStatement();
-		  String query = "select * from VIDEOGAME left join promotion on videogame.id = promotion.videogame_id left join stock on videogame.id = stock.videogame_id where videogame.id = " + id + " and promotion.valid_from = stock.last_updated";
-		  result = s.executeQuery (query);
-		  return result ;
-	  }
+	  
 	  
 	  public String[] relatedSagaCallApi(String id) throws IOException {
 		  URL url = new URL("http://localhost:3000/game-saga/"+id+"/related-sagas");
@@ -77,6 +70,15 @@ public class SagaController {
 		  inline = inline.replace("]", "");
 		  
 		return inline.split(",");  
+	  }
+	  
+	  public ResultSet mySqlCall(String id) throws SQLException {
+		  ResultSet result = null;
+		  Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost:3306/system","sys", "system");
+		  Statement s = conexion.createStatement();
+		  String query = "select * from VIDEOGAME left join promotion on videogame.id = promotion.videogame_id left join stock on videogame.id = stock.videogame_id where videogame.id = " + id + " and promotion.valid_from = stock.last_updated";
+		  result = s.executeQuery (query);
+		  return result ;
 	  }
 	  
 	  public List<VideoGame> listVideoGames(String[] relatedGamesId) throws SQLException{
