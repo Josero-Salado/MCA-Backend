@@ -20,7 +20,7 @@ los datos a los que se le hace assert en los test unitarios son sobre esos 4 dat
 Tras esto he procedido a desarrollar el controlador que es un restcontroller para poder hacer llamadas rest api el cual tiene dentro el metodo
 RelatedGameSagas que pilla de la url por la que se llama un id de un videojuego y devuelve un string en forma de json con la lista de videojuegos relacionados.
 la url a seguir es game/{gameId}/saga, donde el gameId es la id de un juego existente en la base de datos. Para poder hacer llamada a la api hayq ue ejecutar la aplicación
-de springboot y en un navegador usar la url: localhost:8080/game/{gameId}/saga.
+de springboot y en un navegador usar la url: http://localhost:8080/game/{gameId}/saga.
 
 Dentro de este método se hace una llamada a la api ya generada anteriormente: http://localhost:3000/game-saga/{gameId}/related-sagas" que 
 devuelve un json con los id de lois juegos relacionados al parametro de entrada. Tras eso se hace una llamada a la base de datos para cada
