@@ -41,7 +41,29 @@ public class SagaController {
 		  		  
 		  String result = null;
 		  
-		  URL url = new URL("http://localhost:3000/game-saga/"+gameId+"/related-sagas");
+		  String[] relatedGamesId = relatedSagaCallApi(gameId);
+		  logger.info("Los ids de los juegos relacionados a "+gameId+": "+relatedGamesId);
+		 
+		  
+		  List<VideoGame> juegos = listVideoGames(relatedGamesId);
+		 
+		  result = new Gson().toJson(juegos);
+		  logger.info("lista de videojuegos relacionados: " +result);
+		  return result;	 	  
+	  }
+	  
+	  
+	  public ResultSet mySqlCall(String id) throws SQLException {
+		  ResultSet result = null;
+		  Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost:3306/system","sys", "system");
+		  Statement s = conexion.createStatement();
+		  String query = "select * from VIDEOGAME left join promotion on videogame.id = promotion.videogame_id left join stock on videogame.id = stock.videogame_id where videogame.id = " + id + " and promotion.valid_from = stock.last_updated";
+		  result = s.executeQuery (query);
+		  return result ;
+	  }
+	  
+	  public String[] relatedSagaCallApi(String id) throws IOException {
+		  URL url = new URL("http://localhost:3000/game-saga/"+id+"/related-sagas");
 		  HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		  conn.setRequestMethod("GET");
 		  conn.connect();
@@ -53,31 +75,24 @@ public class SagaController {
 		  scanner.close();
 		  inline = inline.replace("[", "");
 		  inline = inline.replace("]", "");
-		  String[] RelatedGamesId = inline.split(",");
 		  
-		
-		  
-		  Connection conexion = DriverManager.getConnection ("jdbc:mysql://localhost:3306/system","sys", "system");
-		  Statement s = conexion.createStatement();
+		return inline.split(",");  
+	  }
+	  
+	  public List<VideoGame> listVideoGames(String[] relatedGamesId) throws SQLException{
 		  List<VideoGame> juegos = new ArrayList<VideoGame>();
-		  for (int i = 0; i < RelatedGamesId.length; i++) {
-			  String query = "select * from VIDEOGAME left join promotion on videogame.id = promotion.videogame_id left join stock on videogame.id = stock.videogame_id where videogame.id = " + RelatedGamesId[i] + " and promotion.valid_from = stock.last_updated";
-			  ResultSet rs = s.executeQuery (query);
+		  for (int i = 0; i < relatedGamesId.length; i++) {
 			  
-			  
+			  ResultSet rs = mySqlCall(relatedGamesId[i]);
 			  while (rs.next()) {
 			
 				  
 				  VideoGame game = VideoGame.builder().id(rs.getString(6)).title(rs.getString(2)).price(rs.getString(5)).availability(rs.getBoolean(8)).build();				 
-				  logger.info(game.toString());
-				  juegos.add(game);
-				  
-			  }
-			  
-		}
-		  result = new Gson().toJson(juegos);
-		  logger.info(result);
-		  return result;
-		 	  
-	  }
+				  logger.info("videojuego relacionado: " +game.toString());
+				  juegos.add(game);		  
+			  }	  
+		  }
+		  return juegos;
+	  }  
+	  
 }
