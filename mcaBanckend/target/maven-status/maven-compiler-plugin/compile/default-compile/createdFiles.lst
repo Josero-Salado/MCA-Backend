@@ -1,0 +1,8 @@
+com\mca\McaApplication.class
+com\mca\infrastructure\model\VideoGameEvent$VideoGameEventBuilder.class
+com\mca\infrastructure\model\VideoGame$VideoGameBuilder.class
+com\mca\config\KafkaConfig.class
+com\mca\infrastructure\model\VideoGame.class
+com\mca\infrastructure\model\VideoGameEvent.class
+com\mca\infrastructure\KafkaMessageProducer.class
+com\mca\controller\SagaController.class

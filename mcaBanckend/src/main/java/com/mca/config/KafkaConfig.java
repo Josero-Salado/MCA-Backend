@@ -46,7 +46,7 @@ public class KafkaConfig implements CommandLineRunner {
 		return VideoGameEvent.builder().stock_id(Long.parseLong(stock.get(0)))
 				.availability(Boolean.parseBoolean(stock.get(1)))
 				.time_update(Timestamp.valueOf(
-						LocalDateTime.parse(stock.get(2), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX"))))
+						LocalDateTime.parse(stock.get(2), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
 				.build();
 	}
 }
