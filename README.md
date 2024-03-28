@@ -38,7 +38,9 @@ En este desarrollo me he encontrado varios retos:
 
 -Para empezar no tengo conocimientos de kafka y docker y he tenido que investigar por mi cuenta como dockerizar el proyecto y por que kafka no me ejecutaba, además de que al principio kafka
 me daba errores de compilación.
+
 -Llevaba bastante tiempo trabajando con soap en vez de con rest y volver a utilizar rest, usando una api existente y creando una mia ha sido un trabajo de hacer memoria.
+
 -El readme aportado por la empresa daba poca información y el tiempo para hacerlo ha sido limitado ya que estando de vacaciones hay ciertos momentos en los que he tenido que dejar de trabajarlo
 y no me han podido responder alguna duda.
 
